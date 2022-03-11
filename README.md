@@ -262,26 +262,37 @@ The goal of this milestone is to develop:
 - macros for modules and contracts: `#[odra::module]`, `#[odra::contract]`, `#[odra:external_contract]`,
 - tests using `CasperVM`,
 
-The milestone ends with the `0.1.0` code release to the http://crates.io.
+**Acceptance criteria:**
+- version is `0.1.0` released to the http://crates.io,
+- it is possible to write simple smart contracts and test them using `CasperVM`.
 
 ## Milestone #2 MVP Part 2
 The goal of this milestone is to develop:
 - `MockVM` to provide debugging features (with breakpoints) and unit-tests not just for whole contracts, but also particular parts and modules.
 - a complete example of `ERC20` implementation.
 
-The milestone ends with the `0.2.0` code release to the http://crates.io.
+**Acceptance criteria:**
+- version is `0.2.0` released to the http://crates.io,
+- Rust debugger can be used to debug smart contracts and tests,
+- standard library is initialized with the `ERC20` contract and can be used to develop custom tokens.
 
 ## Milestone #3 MVP Docs
 Milestone #3 aims at:
 - choosing a web framework for documentation and tutorials,
-- designing the ocumentation structure,
+- designing the documentation structure,
 - complete code documentation for features developed in milestones #1 and #2,
 - ERC20-based tutorial.
-  
-The milestone ends with the release of the documentation and tutorials.
+
+**Acceptance criteria:**
+- `0.1.0` version of documentation and tutorials is published. 
 
 ## Milestone #4 CSPR
 Milestone #4 is all about supporting CSPR transfers. We will develop the `Wrapped CSPR` Contract and modules for handling CSPR transfers ready to be used via the standard library.
+
+**Acceptance criteria:**
+- next version of `odra` is released to the http://crates.io.
+- developers have a clear way of handling `CSPR` transfers and holding `CSPR` in smart contract.
+- `Wrapped CSPR` is included into standard library.
 
 ## Milestone #5 Access Controls
 Milestone #5 produces reusable modules for defining access control: 
@@ -292,10 +303,18 @@ Milestone #5 produces reusable modules for defining access control:
 - Ecrecover
 - Pauseable
 
+**Acceptance criteria:**
+- next version of `odra` is released to the http://crates.io.
+- above modules are included into standard library.
+
 ## Milestone #6 Tokens
 Milestone #6 produces reusable modules:
 - ERC721
 - ERC1155
+
+**Acceptance criteria:**
+- next version of `odra` is released to the http://crates.io.
+- above modules are included into standard library.
 
 ## Milestone #7 Full docs + tutorials
 This milestone aims at writing:
@@ -304,7 +323,18 @@ This milestone aims at writing:
 - tutorial on how to redistribute community-build modules,
 - tutorial for Solidity developers that want to switch into Casper.
 
+**Acceptance criteria:**
+- next version of documentation and tutorials is published. 
+
 ## Milestone #8 Release
 At this stage, the code is fully functional and production-ready. To prove that, a full code audit by 3party should be performed and all the aftermath issues resolved.
 
-The milestone ends with `1.0.0` code release.
+**Acceptance criteria:**
+- version `1.0.0` of `odra` is released to the http://crates.io,
+- version `1.0.0` of documentation and tutorials is published.
+
+## Further support
+After `1.0.0` is released we intend to use the RFP mechanism to support the framework, which is:
+- supporting the community on Discord,
+- adjusting `odra` to support Casper 2.0,
+- accepting community improvements to the code and documentation.
