@@ -79,21 +79,26 @@ Below is the example implementation of a simple `Counter` module.
 ```rust
 #[odra::module]
 struct Counter {
-    value: Variable<u32>
+    value: Variable<u32>,
 }
 
+#[odra::module]
 impl Counter {
-    pub fn get(&self) -> u32 { 
-        self.value.get()
-    }
-
-    pub fn inc(&mut self) -> {
+    pub fn inc(&mut self) {
         let new_value = self.value.get() + 1;
         self.value.set(new_value);
         emit(Incremented {
             author: env::caller(),
             value: new_value
         });
+    }
+
+    pub fn get(&self) -> u32 {
+        self.value.get()
+    }
+
+    pub fn reset(&mut self) {
+        self.value.set(0);
     }
 }
 
@@ -118,7 +123,7 @@ impl ModuleInstance for Counter {
 
 The `Counter` module is now usable.
 ```rust
-let mut counter = Counter::instance("counter");
+let mut counter = Counter::new();
 assert_eq!(counter.get(), 0);
 counter.inc():
 assert_eq!(counter.get(), 1);
@@ -131,9 +136,10 @@ It is possible to use a module more than once. For example, let's define a modul
 #[odra::module]
 struct CoinFlipper {
     heads_count: Counter,
-    tails_count: Counter
+    tails_count: Counter,
 }
 
+#[odra::module]
 impl CoinFlipper {
     pub fn init(&mut self) {
         self.reset();
@@ -161,26 +167,48 @@ impl CoinFlipper {
 Note that the above module ends up with two named keys defined as `heads_count_value` and `tails_count_value`.
 
 ### Contracts
-Every module can be easily converted into a contract. Every contract automatically derives all the code for contract installation, `no_mangle` functions that a `wasm` file requires, arguments parsing, returning values, and calling the constructor. It also allows defining which entry points to expose.
+Every module can be used as a building block of another module or as a standalone contract. To utilize a module as a contract, no additional code is required. Every contract automatically derives all the code for contract installation, `no_mangle` functions that a `wasm` file requires, arguments parsing, returning values, and calling the constructor.
 
-The below example turns previously defined `CoinFlipper` into a contract, defines a constructor method, and chooses entry points to expose. The `reset` method is not exposed.
+Lets define a contract based on the previously defined `CoinFlipper`.
 
 ```rust
-use coin_flipper::CoinFlipper;
+use flipper::Flipper;
 
-#[odra::contract(FairCoinFlipper from CoinFlipper)]
-trait FairCoinFlipperInterface {
+#[odra::module]
+struct MyFlipper {
+    flipper: Flipper
+}
+
+#[odra::module]
+impl MyFlipper {
+
     #[odra::constructor]
-    fn init(&mut self);
-    fn flip(&mut self);
-    fn get_stats(&self) -> (u32, u32);
+    pub fn init(&self) {
+        self.flipper.init(10, self.caller());
+    }
+
+    pub fn flip(&mut self) {
+        self._flip();   
+    }
+    
+    pub fn get_stats(&self) -> (u32, u32) {
+        self.flipper.get_stats()
+    }
+
+    fn _flip(&mut self) {
+        self.flipper.flip()
+    }
 }
 
 ```
+All public functions are exposed as contract's entry points, a constructor is annotated with `#[odra::constructor]`, and chooses entry points to expose. Note that the `_filp` method is not exposed as an entry point.
+
+TODO: how to build a wasm file from a module?
+
 Note that it's effortless to reuse a module that's defined elsewhere.
 
 #### Calling other contracts
-Above macro generates a new `struct` called `FairCoinFlipper` that can be later used to be called in another contract using `at` method that is available.
+`#[odra::module]` macro generates a new `struct` called `FairCoinFlipper` that can be later used to be called in another contract using `at` method that is available.
 
 ```rust
 let mut coin_flipper = FairCoinFlipper::at(address);
