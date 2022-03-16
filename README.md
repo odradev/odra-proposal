@@ -208,8 +208,7 @@ TODO: how to build a wasm file from a module?
 Note that it's effortless to reuse a module that's defined elsewhere.
 
 #### Calling other contracts
-`#[odra::module]` macro generates a new `struct` called `FairCoinFlipper` that can be later used to be called in another contract using `at` method that is available.
-
+To call a contract from another contract a reference to a beforehand deployed item has to be obtained. It can easily be achieved via `at` method.
 ```rust
 let mut coin_flipper = FairCoinFlipper::at(address);
 coin_flipper.flip();
