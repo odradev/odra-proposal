@@ -1,8 +1,11 @@
 # Odra Proposal
-Odra is Casper's high-level smart contract framework for Rust, which encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of smart contract development, enabling you to focus on writing your dapp without the need to reinvent the wheel. It's free and open source.
+Odra is high-level smart contract framework for Rust, which encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of smart contract development, enabling you to focus on writing your dapp without the need to reinvent the wheel. It's free and open source.
+
+## Universal design.
+Odra's goal is to become the go-to smart contract framework for all WebAssembly-based blockchains. We have examined multiple existing platforms and designed Odra to be reusable across many of them: Ethereum's eWASM, Polkadot's contract pallete, CosmWasm, Near, Solana, and Casper. A smart contract written using Odra can be executed on all integrated systems. We can do it by abstracting over core concepts that all the above systems are built around. These are types system, storage, entry points, execution context, and testing environment. We believe it will bring standardization to the development of Rust-based smart contracts and enable code reusability we have not yet seen in this ecosystem. 
 
 ## Casper Blockchain
-The Casper blockchain became a fully operational blockchain. Given its current technical achievements, plans, and strong tech, we see Casper as a reliable platform for many future projects.
+The Casper blockchain became a fully operational blockchain by now. Given its current technical achievements, plans, and strong tech, we see Casper as a great first platform to integrate with Odra, before we move to other systems.
 
 ## What problem do we want to solve?
 We have learned that writing smart contracts for Casper can be much easier. Abstracting away a low-level code and enforcing well-tested design patterns for writing smart contracts would unleash the developers' potential and let them focus only on what's essential while keeping the code clean, safe, and maintainable. Furthermore, it simplifies the code, reduces its amount, and makes it more readable. Those things allow the project to finish earlier and lower the development costs. The right tool for writing smart contracts will attract new developers and companies to bootstrap their projects on Casper. We also target Solidity developers by adapting concepts and best practices from this project.
